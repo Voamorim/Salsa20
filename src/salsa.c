@@ -138,7 +138,7 @@ unsigned char* encode(char *plain_text, uint32* key){
         free(keystream);
     }
 
-    FILE *nonces_file = fopen("nonces.txt", "wb");
+    FILE *nonces_file = fopen("data/nonces.txt", "wb");
     if(nonces_file == NULL){
         printf("ERRO: Erro ao abrir o arquivo 'nonces.txt'\n");
         free(ciphered_text);
@@ -180,7 +180,7 @@ unsigned char* decode(char* ciphered_text, uint32* key, uint64* nonces, uint32 c
 int main() {
     srand(time(NULL));
          
-    FILE *input_file = fopen("plain.txt", "rb");
+    FILE *input_file = fopen("data/plain.txt", "rb");
     if(input_file == NULL){
         printf("ERRO: Erro ao abrir o arquivo de entrada.\n");
         return 1;
@@ -208,7 +208,7 @@ int main() {
     fclose(input_file);
 
     unsigned char *key = generateKey();
-    FILE *key_file = fopen("key.txt", "wb");
+    FILE *key_file = fopen("data/key.txt", "wb");
     if(key_file == NULL){
         printf("ERRO: Erro ao abrir o arquivo de chave.\n");
         return 1;
@@ -219,7 +219,7 @@ int main() {
     unsigned char *ciphered_text = encode(plain_text, (uint32*) key);
     free(key); 
 
-    FILE *ciphered_file = fopen("encoded.txt", "wb");
+    FILE *ciphered_file = fopen("data/encoded.txt", "wb");
     if(ciphered_file == NULL){
         printf("ERRO: Erro ao abrir o arquivo de saida.\n");
         return 1;
@@ -228,7 +228,7 @@ int main() {
     fclose(ciphered_file);
 
     // Decodificacao
-    FILE *nonces_file = fopen("nonces.txt", "rb");
+    FILE *nonces_file = fopen("data/nonces.txt", "rb");
     if(nonces_file == NULL){
         printf("ERRO: Erro ao abrir o arquivo 'nonces_file'\n");
         free(ciphered_text);
@@ -256,7 +256,7 @@ int main() {
     }
     fclose(nonces_file);
 
-    key_file = fopen("key.txt", "r");
+    key_file = fopen("data/key.txt", "r");
     if(key_file == NULL){
         printf("ERRO: Erro ao abrir o arquivo 'key.txt'\n");
         free(ciphered_text);

@@ -2,25 +2,29 @@ COMPILER = gcc
 FLAGS = -Wall -Wextra -g
 BINARYDIR = binary
 EXENAME = salsa 
+SRCDIR = ./src
 
-SRCS = $(filter-out salsa.c, $(wildcard *.c))
-OBJS = $(SRCS:%.c=$(BINARYDIR)/%.o)
+SRCS = $(filter-out $(SRCDIR)/salsa.c, $(wildcard $(SRCDIR)/$*.c))
+OBJS = $(patsubst $(SRCDIR)/%.c, $(BINARYDIR)/%.o, $(SRCS))
 
-.PHONY: all clean
+.PHONY: all clean run
 
 all: $(BINARYDIR) $(EXENAME)
 
 $(EXENAME): $(OBJS) $(BINARYDIR)/salsa.o
-		$(COMPILER) $(FLAGS) $^ -o $@ 
+	$(COMPILER) $(FLAGS) $^ -o $@ -lm
 
-$(BINARYDIR)/salsa.o: salsa.c
-		$(COMPILER) $(FLAGS) -c $< -o $@ 
+$(BINARYDIR)/salsa.o: $(SRCDIR)/salsa.c
+	$(COMPILER) $(FLAGS) -c $< -o $@ 
+
+$(BINARYDIR)/%.o: $(SRCDIR)/%.c
+	$(COMPILER) $(FLAGS) -c $< -o $@ 
 
 $(BINARYDIR):
-	test ! -d $(BINARYDIR) && mkdir $(BINARYDIR)
+	mkdir -p $(BINARYDIR)
 
 run:
 	./$(EXENAME)
 
 clean:
-	rm -rf $(BINARYDIR)/* $(EXENAME)
+	rm -rf $(BINARYDIR) $(EXENAME)

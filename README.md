@@ -1,4 +1,4 @@
-# Salsa20 Strem Cipher (Educational)
+# Salsa20 Strem Cipher
 
 An educational C implementation of the **Salsa20** stream cipher designed to demonstrate state matrix construction, quarter-round transformations, key/nonce management, and file encryption/decryption mechanics.
 
